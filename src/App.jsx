@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashBoard from './pages/DashBoard'
 import Home from './pages/Home';
-import MainLayout from './Layout/MainLayOut';
+import MainLayout from './layout/MainLayOut';
 import CreateCandidateForm from './components/CreateCandidateForm';
 
 
