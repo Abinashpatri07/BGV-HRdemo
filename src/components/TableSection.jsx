@@ -180,7 +180,14 @@ function TableSection({ isToolBarRequired }) {
                           <span>View</span>
                         </div>
 
-                        <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+                       <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenu(null);
+                            navigate(`/candidate/edit/${item.id}`);
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
                           <Pencil size={16} />
                           <span>Edit</span>
                         </div>

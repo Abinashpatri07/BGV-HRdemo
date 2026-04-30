@@ -1,0 +1,430 @@
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import {
+  User,
+  MapPin,
+  IdCard,
+  GraduationCap,
+  Briefcase,
+  ShieldCheck,
+  Users,
+  CheckCircle,
+  Pencil, Eye
+} from "lucide-react";
+
+const InputField = ({ label, value }) => (
+  <div>
+    <label className="block text-sm text-gray-600 mb-1">{label}</label>
+    <input
+      defaultValue={value}
+      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#01026E]"
+    />
+  </div>
+);
+
+const EditCandidate = () => {
+  const { id } = useParams();
+  const [activeTab, setActiveTab] = useState("Personal");
+
+  const tabs = [
+    { name: "Personal", icon: User },
+    { name: "Address", icon: MapPin },
+    { name: "Identity", icon: IdCard },
+    { name: "Education", icon: GraduationCap },
+    { name: "Employment", icon: Briefcase },
+    { name: "Background", icon: ShieldCheck },
+    { name: "Reference", icon: Users }
+  ];
+
+  return (
+    <div className="p-6 max-w-6xl mx-auto bg-[#F4F7FE] min-h-screen">
+
+      {/* Header */}
+      <h2 className="text-xl font-semibold text-gray-800">
+        Edit Candidate Profile
+      </h2>
+      <p className="text-sm text-gray-500 mt-1 mb-6">
+        Update Information And Manage Verification Status For Ramesh Kumar Mishra.
+      </p>
+
+      {/* Card */}
+      <div className="bg-white rounded-xl shadow-md border">
+
+        {/* Tabs */}
+        <div className="flex items-center gap-6 px-6 py-4 border-b text-sm overflow-x-auto">
+
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.name;
+
+            return (
+              <button
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition ${
+                  isActive
+                    ? "bg-[#01026E] text-white"
+                    : "text-gray-600 hover:text-black"
+                }`}
+              >
+                <Icon size={16} />
+                {tab.name}
+              </button>
+            );
+          })}
+
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+
+          {/* Only Personal Tab (others can be added later) */}
+          {activeTab === "Personal" && (
+            <>
+              <h3 className="text-lg font-semibold text-gray-800">
+                Personal Information
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                General Profile Details And Contact Information.
+              </p>
+
+              <div className="grid grid-cols-2 gap-5">
+
+                <InputField label="Name" value="Ramesh Kumar Mishra" />
+                <InputField label="Phone no" value="+91 1234567890" />
+
+                <InputField label="Email" value="abcdsew67@mail.com" />
+                <InputField label="Date Of Birth" value="5/10/1998" />
+
+                <InputField label="Function" value="Product" />
+                <InputField label="Tag" value="May Batch" />
+
+              </div>
+            </>
+          )}
+
+        {activeTab === "Address" && (
+            <>
+                {/* Present Address */}
+                <h3 className="text-lg font-semibold text-gray-800">
+                Present Address
+                </h3>
+                <p className="text-sm text-gray-500 mb-6">
+                General Profile Details And Contact Information.
+                </p>
+
+                <div className="grid grid-cols-2 gap-5 mb-8">
+
+                <InputField label="House And Apartment Number" value="G-501" />
+                <InputField label="Pin Code" value="524158" />
+
+                <InputField label="Address Line 1" value="Kula Layout, Sanjib Nagar 3 Rd Phase" />
+                <InputField label="Address Line 2" value="Bingolike, Bangalore" />
+
+                <InputField label="City" value="Bangalore" />
+                <InputField label="State" value="Karnataka" />
+
+                </div>
+
+                {/* Permanent Address */}
+                <h3 className="text-lg font-semibold text-gray-800">
+                Permanent Address
+                </h3>
+
+                <div className="grid grid-cols-2 gap-5">
+
+                <InputField label="House And Apartment Number" value="14 Krishna Avenue" />
+                <InputField label="Pin Code" value="110009" />
+
+                <InputField label="Address Line 1" value="Model Town" />
+                <InputField label="Address Line 2" value="New Delhi" />
+
+                <InputField label="City" value="Delhi" />
+                <InputField label="State" value="Delhi" />
+
+                </div>
+            </>
+            )}
+            {activeTab === "Identity" && (
+            <>
+                <h3 className="text-lg font-semibold text-gray-800">
+                Identity Information
+                </h3>
+                <p className="text-sm text-gray-500 mb-6">
+                General Profile Details And Contact Information.
+                </p>
+
+                <div className="space-y-5">
+
+                {/* Passport */}
+                <div className="border rounded-xl p-4 shadow-sm">
+                    <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium text-[#01026E]">Passport</h4>
+                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                        Verified
+                    </span>
+                    </div>
+
+                    <InputField label="ID Number" value="OFE5214VD80015" />
+                </div>
+
+                {/* PAN Card */}
+                <div className="border rounded-xl p-4 shadow-sm">
+                    <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium text-[#01026E]">Pan Card</h4>
+                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                        Verified
+                    </span>
+                    </div>
+
+                    <InputField label="Card Number" value="JAHPQ6443G" />
+                </div>
+
+                {/* Driving License */}
+                <div className="border rounded-xl p-4 shadow-sm">
+                    <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium text-[#01026E]">Driving License</h4>
+                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                        Verified
+                    </span>
+                    </div>
+
+                    <InputField label="License Number" value="DL-04202000045" />
+                </div>
+
+                {/* Voter ID (NEW FIELD) */}
+                <div className="border rounded-xl p-4 shadow-sm">
+                    <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium text-[#01026E]">Voter ID</h4>
+                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                        Verified
+                    </span>
+                    </div>
+
+                    <InputField label="Voter ID Number" value="XYZ9088271" />
+                </div>
+
+                </div>
+            </>
+            )}
+
+            {activeTab === "Education" && (
+            <>
+                <h3 className="text-lg font-semibold text-gray-800">
+                Education Details
+                </h3>
+
+                <div className="space-y-4 mt-4">
+
+                {[
+                    "Matriculation",
+                    "Intermediate",
+                    "Graduation",
+                    "Post Graduation"
+                ].map((item) => (
+                    <div
+                    key={item}
+                    className="flex items-center justify-between border rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition"
+                    >
+                    {/* Left */}
+                    <div className="flex items-center gap-3">
+                        <CheckCircle size={18} className="text-green-500" />
+                        <span className="text-sm font-medium text-[#01026E]">
+                        {item}
+                        </span>
+                    </div>
+
+                    {/* Right */}
+                    <div className="flex items-center gap-4 text-gray-500">
+                        {/* View */}
+                        <span className="cursor-pointer hover:text-black">👁</span>
+
+                        {/* Delete */}
+                        <span className="cursor-pointer text-red-500 hover:text-red-600">
+                        🗑
+                        </span>
+                    </div>
+                    </div>
+                ))}
+
+                </div>
+            </>
+            )}
+            {activeTab === "Employment" && (
+                <>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                    Employment Details
+                    </h3>
+
+                    <div className="mt-5">
+
+                    <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-start">
+
+                        {/* Left */}
+                        <div>
+                        <div className="flex items-center gap-3">
+                            <h4 className="text-base font-semibold text-gray-800">
+                            UI/UX Designer
+                            </h4>
+
+                            {/* Edit Icon */}
+                            <Pencil size={16} className="text-gray-500 cursor-pointer hover:text-black" />
+                        </div>
+
+                        <p className="text-sm text-gray-600 mt-1">
+                            DQnex Consultant
+                        </p>
+
+                        <p className="text-xs text-gray-400 mt-1">
+                            Full-Time | May 2024 To Aug 2026 (18 Months)
+                        </p>
+
+                        <p className="text-xs text-gray-400 mt-2">
+                            Responsible UI UX Designer And Web Or Application Designer
+                        </p>
+                        </div>
+
+                        {/* Right */}
+                        <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
+                        <Eye size={16} />
+                        <span className="text-sm">view</span>
+                        </div>
+
+                    </div>
+
+                    </div>
+                </>
+                )}
+
+                {activeTab === "Background" && (
+                    <>
+                        {/* Criminal Record */}
+                        <h3 className="text-lg font-semibold text-gray-800">
+                        Criminal Record
+                        </h3>
+
+                        <div className="mt-4 mb-6">
+                        <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-center">
+                            
+                            {/* Left */}
+                            <div>
+                            <p className="text-sm font-medium text-gray-800">
+                                Criminal Record Exist
+                            </p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Case Number 1547254
+                            </p>
+                            </div>
+
+                            {/* Right */}
+                            <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
+                            <Eye size={16} />
+                            <span className="text-sm">View</span>
+                            </div>
+
+                        </div>
+                        </div>
+
+                        {/* Drug Test */}
+                        <h3 className="text-lg font-semibold text-gray-800">
+                        Drug Test Report
+                        </h3>
+
+                        <div className="mt-4">
+                        <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-center">
+                            
+                            {/* Left */}
+                            <div>
+                            <p className="text-sm font-medium text-gray-800">
+                                Drug Test Report Available
+                            </p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Report Number 154872031
+                            </p>
+                            </div>
+
+                            {/* Right */}
+                            <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
+                            <Eye size={16} />
+                            <span className="text-sm">View</span>
+                            </div>
+
+                        </div>
+                        </div>
+                    </>
+                    )}
+                    {activeTab === "Reference" && (
+                    <>
+                        <h3 className="text-lg font-semibold text-[#01026E]">
+                        Reference Details
+                        </h3>
+
+                        {/* Reference 1 */}
+                        <h4 className="mt-4 font-medium text-[#01026E]">Reference 1</h4>
+
+                        <div className="grid grid-cols-2 gap-5 mt-3">
+
+                        <InputField label="Name *" value="Varun Kummel" />
+                        <InputField label="Phone no *" value="+91 1234567890" />
+
+                        <InputField label="Email *" value="abcsdew67@mail.com" />
+                        <InputField label="Gender *" value="Male" />
+
+                        <InputField label="Institute Name *" value="Brindavan College of Engineering" />
+                        <InputField label="Designation *" value="Director" />
+
+                        </div>
+
+                        {/* Reference 2 */}
+                        <h4 className="mt-6 font-medium text-[#01026E]">Reference 2</h4>
+
+                        <div className="grid grid-cols-2 gap-5 mt-3">
+
+                        <InputField label="Name *" value="Manisha Dixit" />
+                        <InputField label="Phone no *" value="+91 1234567890" />
+
+                        <InputField label="Email *" value="manishad5487@gmail.com" />
+
+                        {/* Dropdown for Gender */}
+                        <div>
+                            <label className="block text-sm text-gray-600 mb-1">
+                            Gender *
+                            </label>
+                            <select className="w-full border rounded-lg px-3 py-2 text-sm">
+                            <option>Female</option>
+                            <option>Male</option>
+                            </select>
+                        </div>
+
+                        <InputField label="Institute Name *" value="Brindavan College of Engineering" />
+                        <InputField label="Designation *" value="Professor" />
+
+                        </div>
+                    </>
+                    )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between mt-8">
+            
+            <p className="text-xs text-gray-400">
+              Last edited by Admin on Oct 24, 2023
+            </p>
+
+            <div className="flex gap-3">
+              <button className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100">
+                Cancel
+              </button>
+              <button className="px-5 py-2 bg-[#01026E] text-white rounded-lg text-sm hover:opacity-90 transition">
+                Save Profile Details
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditCandidate;
