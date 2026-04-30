@@ -9,38 +9,6 @@ function CreateCandidateForm() {
   const [loading, setLoading] = useState(false);
 
 
-  // 🔥 Fake DB
-  // const users = [
-  //   { email: "test@gmail.com", phone: "9876543210" },
-  //   { email: "user@gmail.com", phone: "9999999999" },
-  // ];
-
-  // // 🔥 Fake API
-  // const checkUserExists = ({ email, phone }) => {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       let exists = users.some(
-  //         (u) => u.email === email
-  //       );
-
-  //       if(exists){
-  //         resolve({code:409,type:"email",msg:'email exists'});
-  //       }
-
-  //       exists = users.some(
-  //         (u) => u.phone === phone
-  //       );
-
-  //       if(exists){
-  //         resolve({code:409,type:"phone",msg:'phone exists'});
-  //       }
-
-  //       resolve({code:200,msg:'submitted'});
-        
-  //     }, 1000);
-  //   });
-  // };
-
   const {
     register,
     handleSubmit,

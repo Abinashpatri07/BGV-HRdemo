@@ -88,7 +88,7 @@ function Sidebar() {
       </div>
 
       {/* 🔻 LOGOUT (FIXED BOTTOM ALWAYS) */}
-      <div className="p-4 border-t">
+      <div className="p-4">
         <button
           className={`group relative flex items-center ${
             expanded ? "gap-3 px-4" : "justify-center"

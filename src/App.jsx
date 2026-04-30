@@ -4,6 +4,7 @@ import DashBoard from './pages/DashBoard'
 import Home from './pages/Home';
 import MainLayout from './Layout/MainLayout';
 import CreateCandidateForm from './components/CreateCandidateForm';
+import CandidateDetails from './pages/CandidateDetails';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
           <Route path="/dashboard" element={<DashBoard />} />
            <Route path="/create-candidate" element={<CreateCandidateForm />} />
            
-          {/* <Route path="/candidate/:id" element={<CandidateDetails />} /> */}
+          <Route path="/candidate/:id" element={<CandidateDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

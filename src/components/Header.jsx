@@ -1,16 +1,17 @@
 import React from "react";
 import { Bell, Sun } from "lucide-react";
 
+
 function Header() {
   return (
     <div className="w-full flex justify-between items-center px-6 h-16">
       
       {/* ✅ LEFT: LOGO */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <img
-          src="/logo.png"   // 👉 put your logo in public folder
+          src="/src/assets/logo.png"   // put your logo in public folder
           alt="logo"
-          className="w-8 h-8"
+          className="h-24 w-auto object-contain"
         />
         {/* <h1 className="text-lg font-semibold">MyApp</h1> */}
       </div>
