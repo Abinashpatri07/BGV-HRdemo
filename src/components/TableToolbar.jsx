@@ -1,15 +1,39 @@
-import { RefreshCw, List, CalendarDays, Trash2, Search, Upload } from "lucide-react";
+import {
+  RefreshCw,
+  List,
+  CalendarDays,
+  Trash2,
+  Search,
+  Upload,
+  FileText,
+  FileSpreadsheet
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 function TableToolbar() {
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [selectedType, setSelectedType] = useState("pdf");
+
+  const dropdownRef = useRef();
+
+  // ✅ Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowExportModal(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
     <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
       
-      {/* Left Side Buttons */}
+      {/* Left Side */}
       <div className="flex gap-2 flex-wrap">
-        
-        <button className="px-4 py-2 bg-gray-200 rounded-lg text-sm">
-          All
-        </button>
+        <button className="px-4 py-2 bg-gray-200 rounded-lg text-sm">All</button>
 
         <button className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg text-sm">
           <RefreshCw size={16} />
@@ -18,12 +42,12 @@ function TableToolbar() {
 
         <button className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg text-sm">
           <List size={16} />
-          Short by Name
+          Sort by Name
         </button>
 
         <button className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg text-sm">
           <CalendarDays size={16} />
-          Short by Date
+          Sort by Date
         </button>
 
         <button className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg text-sm">
@@ -45,13 +69,92 @@ function TableToolbar() {
           <Search size={16} className="text-gray-500" />
         </div>
 
-        {/* Export Button */}
-        <button className="flex items-center gap-2 border px-4 py-2 rounded-lg text-sm hover:bg-gray-100">
-          <Upload size={16} />
-          Export
-        </button>
-      </div>
+        {/* Export Dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowExportModal(!showExportModal);
+            }}
+            className="flex items-center gap-2 border px-4 py-2 rounded-lg text-sm hover:bg-gray-100"
+          >
+            <Upload size={16} />
+            Export
+          </button>
 
+          {/* Dropdown Panel */}
+          {showExportModal && (
+            <div className="absolute right-full mr-2 top-0 w-70 bg-white border rounded-xl shadow-lg z-50 p-4">
+
+              {/* Title */}
+              <h3 className="text-sm font-medium mb-3">
+                Select file type
+              </h3>
+
+              {/* Options */}
+              <div className="flex gap-2 mb-4">
+
+                {/* PDF */}
+                <div
+                  onClick={() => setSelectedType("pdf")}
+                  className={`flex items-center gap-2 border rounded-lg px-3 py-2 cursor-pointer ${
+                    selectedType === "pdf"
+                      ? "border-[#01026E] bg-blue-50"
+                      : "hover:bg-gray-50"
+                  }`}
+                >
+                  <FileText size={16} className="text-red-500" />
+                  <span className="text-xs">PDF</span>
+                </div>
+
+                {/* Excel */}
+                <div
+                  onClick={() => setSelectedType("excel")}
+                  className={`flex items-center gap-2 border rounded-lg px-3 py-2 cursor-pointer ${
+                    selectedType === "excel"
+                      ? "border-[#01026E] bg-blue-50"
+                      : "hover:bg-gray-50"
+                  }`}
+                >
+                  <FileSpreadsheet size={16} className="text-green-600" />
+                  <span className="text-xs">Excel</span>
+                </div>
+
+                {/* CSV */}
+                <div
+                  onClick={() => setSelectedType("csv")}
+                  className={`flex items-center gap-2 border rounded-lg px-3 py-2 cursor-pointer ${
+                    selectedType === "csv"
+                      ? "border-[#01026E] bg-blue-50"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  <FileText size={16} className="text-green-500" />
+                  <span className="text-xs">CSV</span>
+                </div>
+
+              </div>
+
+              {/* Download Button */}
+              <div className="flex justify-end">
+                <button
+                  onClick={() => {
+                    console.log("Download:", selectedType);
+                    setShowExportModal(false);
+                  }}
+                  className="bg-[#01026E] text-white px-4 py-1.5 rounded-lg text-sm hover:opacity-90"
+                >
+                  Download
+                </button>
+              </div>
+
+            </div>
+          )}
+
+        </div>
+
+      </div>
     </div>
   );
 }

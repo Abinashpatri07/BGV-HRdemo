@@ -9,7 +9,7 @@ import {
   ShieldCheck,
   Users,
   CheckCircle,
-  Pencil, Eye
+  Pencil, Eye, Trash2 
 } from "lucide-react";
 
 const InputField = ({ label, value }) => (
@@ -25,6 +25,8 @@ const InputField = ({ label, value }) => (
 const EditCandidate = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Personal");
+  const [showEducationView, setShowEducationView] = useState(false);
+  const [showEmploymentView, setShowEmploymentView] = useState(false);
 
   const tabs = [
     { name: "Personal", icon: User },
@@ -209,92 +211,179 @@ const EditCandidate = () => {
             )}
 
             {activeTab === "Education" && (
-            <>
-                <h3 className="text-lg font-semibold text-gray-800">
-                Education Details
-                </h3>
+  <>
+    {!showEducationView ? (
+      <>
+        <h3 className="text-lg font-semibold text-gray-800">
+          Education Details
+        </h3>
 
-                <div className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4">
+          {[
+            "Matriculation",
+            "Intermediate",
+            "Graduation",
+            "Post Graduation"
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex items-center justify-between border rounded-xl px-4 py-3 shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3">
+                <CheckCircle size={18} className="text-green-500" />
+                <span className="text-sm font-medium text-[#01026E]">
+                  {item}
+                </span>
+              </div>
 
-                {[
-                    "Matriculation",
-                    "Intermediate",
-                    "Graduation",
-                    "Post Graduation"
-                ].map((item) => (
-                    <div
-                    key={item}
-                    className="flex items-center justify-between border rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition"
-                    >
-                    {/* Left */}
-                    <div className="flex items-center gap-3">
-                        <CheckCircle size={18} className="text-green-500" />
-                        <span className="text-sm font-medium text-[#01026E]">
-                        {item}
-                        </span>
-                    </div>
+              <div className="flex items-center gap-4 text-gray-500">
+                <Eye
+                  size={16}
+                  className="cursor-pointer hover:text-black"
+                  onClick={() => setShowEducationView(true)}
+                />
+                <Trash2
+                  size={16}
+                  className="cursor-pointer text-red-500 hover:text-red-600"
+                  onClick={() => {
+                    console.log("Delete clicked:", item);
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <>
+        {/* 🔥 EDUCATION DETAILS VIEW */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          Education Details
+        </h3>
 
-                    {/* Right */}
-                    <div className="flex items-center gap-4 text-gray-500">
-                        {/* View */}
-                        <span className="cursor-pointer hover:text-black">👁</span>
+        <div className="grid grid-cols-3 gap-6">
 
-                        {/* Delete */}
-                        <span className="cursor-pointer text-red-500 hover:text-red-600">
-                        🗑
-                        </span>
-                    </div>
-                    </div>
-                ))}
+          {/* LEFT FORM */}
+          <div className="col-span-2 bg-white p-5 rounded-xl shadow border">
+            <div className="grid grid-cols-2 gap-5">
 
-                </div>
-            </>
-            )}
+              <InputField label="Institute Name" value="Noida Group Of Institutions" />
+              <InputField label="Degree" value="M tech" />
+
+              <InputField label="Start Date" value="25/5/2018" />
+              <InputField label="End Date" value="06/04/2022" />
+
+              <InputField label="Course" value="Computer Science Engineering" />
+              <InputField label="Percentage/CGPA" value="8.9 CGPA" />
+
+            </div>
+          </div>
+
+          {/* RIGHT PREVIEW */}
+          <div className="bg-white p-4 rounded-xl shadow border text-center">
+            <p className="text-sm text-[#01026E] mb-3 font-medium">
+              Preview
+            </p>
+
+            <img
+              src="https://images.unsplash.com/photo-1586281380349-632531db7ed4"
+              alt="certificate"
+              className="rounded-lg shadow-sm mx-auto h-64 object-cover"
+            />
+          </div>
+
+        </div>
+      </>
+    )}
+  </>
+)}
             {activeTab === "Employment" && (
-                <>
-                    <h3 className="text-lg font-semibold text-gray-800">
-                    Employment Details
-                    </h3>
+  <>
+    {!showEmploymentView ? (
+      <>
+        <h3 className="text-lg font-semibold text-gray-800">
+          Employment Details
+        </h3>
 
-                    <div className="mt-5">
+        <div className="mt-5">
+          <div className="bg-white border rounded-xl shadow-sm p-5 flex justify-between items-start">
 
-                    <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-start">
+            {/* Left */}
+            <div>
+              <div className="flex items-center gap-3">
+                <h4 className="text-base font-semibold text-gray-800">
+                  UI/UX Designer
+                </h4>
+                <Pencil size={16} className="text-gray-500 cursor-pointer" />
+              </div>
 
-                        {/* Left */}
-                        <div>
-                        <div className="flex items-center gap-3">
-                            <h4 className="text-base font-semibold text-gray-800">
-                            UI/UX Designer
-                            </h4>
+              <p className="text-sm text-gray-600 mt-1">
+                DQnex Consultant
+              </p>
 
-                            {/* Edit Icon */}
-                            <Pencil size={16} className="text-gray-500 cursor-pointer hover:text-black" />
-                        </div>
+              <p className="text-xs text-gray-400 mt-1">
+                Full-Time | May 2024 To Aug 2026 (18 Months)
+              </p>
 
-                        <p className="text-sm text-gray-600 mt-1">
-                            DQnex Consultant
-                        </p>
+              <p className="text-xs text-gray-400 mt-2">
+                Responsible UI UX Designer And Web Or Application Designer
+              </p>
+            </div>
 
-                        <p className="text-xs text-gray-400 mt-1">
-                            Full-Time | May 2024 To Aug 2026 (18 Months)
-                        </p>
+            {/* Right */}
+            <div
+              onClick={() => setShowEmploymentView(true)}
+              className="flex items-center gap-2 text-[#01026E] cursor-pointer"
+            >
+              <Eye size={16} />
+              <span className="text-sm">view</span>
+            </div>
 
-                        <p className="text-xs text-gray-400 mt-2">
-                            Responsible UI UX Designer And Web Or Application Designer
-                        </p>
-                        </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <>
+        {/* 🔥 EMPLOYMENT DETAILS VIEW */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          Employment Details
+        </h3>
 
-                        {/* Right */}
-                        <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
-                        <Eye size={16} />
-                        <span className="text-sm">view</span>
-                        </div>
+        <div className="grid grid-cols-3 gap-6">
 
-                    </div>
+          {/* LEFT FORM */}
+          <div className="col-span-2 bg-white p-5 rounded-xl shadow border">
+            <div className="grid grid-cols-2 gap-5">
 
-                    </div>
-                </>
-                )}
+              <InputField label="Employee ID" value="GAD54217899" />
+              <InputField label="Company Name" value="DQnex Private LTD" />
+
+              <InputField label="From Date" value="25/5/2018" />
+              <InputField label="To Date" value="06/04/2024" />
+
+              <InputField label="Designation" value="UI/UX Designer" />
+              <InputField label="Drawn CTC" value="9 LPA" />
+
+            </div>
+          </div>
+
+          {/* RIGHT PREVIEW */}
+          <div className="bg-white p-4 rounded-xl shadow border text-center">
+            <p className="text-sm text-[#01026E] mb-3 font-medium">
+              Preview
+            </p>
+
+            <img
+              src="https://images.unsplash.com/photo-1586281380349-632531db7ed4"
+              className="rounded-lg shadow-sm mx-auto h-64 object-cover"
+            />
+          </div>
+
+        </div>
+      </>
+    )}
+  </>
+)}
 
                 {activeTab === "Background" && (
                     <>
@@ -411,13 +500,32 @@ const EditCandidate = () => {
             </p>
 
             <div className="flex gap-3">
-              <button className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100">
-                Cancel
-              </button>
-              <button className="px-5 py-2 bg-[#01026E] text-white rounded-lg text-sm hover:opacity-90 transition">
-                Save Profile Details
-              </button>
-            </div>
+
+  {/* Cancel → go back from education view */}
+  <button
+  onClick={() => {
+    if (showEducationView) setShowEducationView(false);
+    else if (showEmploymentView) setShowEmploymentView(false);
+  }}
+>
+  Cancel
+</button>
+
+  {/* Save → works for both normal + education */}
+  <button
+    onClick={() => {
+      if (showEducationView) {
+        console.log("Submit Education Data");
+      } else {
+        console.log("Save Full Profile");
+      }
+    }}
+    className="px-5 py-2 bg-[#01026E] text-white rounded-lg text-sm"
+  >
+    Save Profile Details
+  </button>
+
+</div>
 
           </div>
 

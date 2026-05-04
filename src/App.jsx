@@ -6,6 +6,7 @@ import MainLayout from './Layout/MainLayout';
 import CreateCandidateForm from './components/CreateCandidateForm';
 import CandidateDetails from './pages/CandidateDetails';
 import EditCandidate from './pages/EditCandidate';
+import BulkUpload from './pages/BulkUpload';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
            
           <Route path="/candidate/:id" element={<CandidateDetails />} />
           <Route path="/candidate/edit/:id" element={<EditCandidate />} />
+          <Route path="/bulk-upload" element={<BulkUpload />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import { Eye, Pencil, PauseCircle, XCircle } from "lucide-react";
+import { Eye, Pencil, PauseCircle, XCircle, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import TableToolbar from "./TableToolbar";
 import { useNavigate } from "react-router-dom";
@@ -190,6 +190,17 @@ function TableSection({ isToolBarRequired }) {
                         >
                           <Pencil size={16} />
                           <span>Edit</span>
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenu(null);
+                            console.log("Send Email clicked for:", item.cand_id);
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          <Mail size={16} />
+                          <span>Send Email</span>
                         </div>
 
                         <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
