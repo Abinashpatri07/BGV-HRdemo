@@ -27,6 +27,8 @@ const EditCandidate = () => {
   const [activeTab, setActiveTab] = useState("Personal");
   const [showEducationView, setShowEducationView] = useState(false);
   const [showEmploymentView, setShowEmploymentView] = useState(false);
+  const [backgroundView, setBackgroundView] = useState(null);
+
 
   const tabs = [
     { name: "Personal", icon: User },
@@ -386,62 +388,119 @@ const EditCandidate = () => {
 )}
 
                 {activeTab === "Background" && (
-                    <>
-                        {/* Criminal Record */}
-                        <h3 className="text-lg font-semibold text-gray-800">
-                        Criminal Record
-                        </h3>
+  <>
+    {!backgroundView ? (
+      <>
+        {/* ===== LIST VIEW ===== */}
 
-                        <div className="mt-4 mb-6">
-                        <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-center">
-                            
-                            {/* Left */}
-                            <div>
-                            <p className="text-sm font-medium text-gray-800">
-                                Criminal Record Exist
-                            </p>
-                            <p className="text-xs text-gray-400 mt-1">
-                                Case Number 1547254
-                            </p>
-                            </div>
+        {/* Criminal */}
+        <h3 className="text-lg font-semibold text-gray-800">
+          Criminal Record
+        </h3>
 
-                            {/* Right */}
-                            <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
-                            <Eye size={16} />
-                            <span className="text-sm">View</span>
-                            </div>
+        <div className="mt-4 mb-6">
+          <div className="bg-white border rounded-xl shadow-sm p-5 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-medium text-gray-800">
+                Criminal Record Exist
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                Case Number 1547254
+              </p>
+            </div>
 
-                        </div>
-                        </div>
+            <div
+              onClick={() => setBackgroundView("criminal")}
+              className="flex items-center gap-2 text-[#01026E] cursor-pointer"
+            >
+              <Eye size={16} />
+              <span className="text-sm">View</span>
+            </div>
+          </div>
+        </div>
 
-                        {/* Drug Test */}
-                        <h3 className="text-lg font-semibold text-gray-800">
-                        Drug Test Report
-                        </h3>
+        {/* Drug */}
+        <h3 className="text-lg font-semibold text-gray-800">
+          Drug Test Report
+        </h3>
 
-                        <div className="mt-4">
-                        <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition flex justify-between items-center">
-                            
-                            {/* Left */}
-                            <div>
-                            <p className="text-sm font-medium text-gray-800">
-                                Drug Test Report Available
-                            </p>
-                            <p className="text-xs text-gray-400 mt-1">
-                                Report Number 154872031
-                            </p>
-                            </div>
+        <div className="mt-4">
+          <div className="bg-white border rounded-xl shadow-sm p-5 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-medium text-gray-800">
+                Drug Test Report Available
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                Report Number 154872031
+              </p>
+            </div>
 
-                            {/* Right */}
-                            <div className="flex items-center gap-2 text-[#01026E] cursor-pointer">
-                            <Eye size={16} />
-                            <span className="text-sm">View</span>
-                            </div>
+           <div
+             onClick={() => setBackgroundView("drug")}
+             className="flex items-center gap-2 text-[#01026E] cursor-pointer"
+           >
+             <Eye size={16} />
+             <span className="text-sm">View</span>
+           </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <>
+        {/* ===== DETAIL VIEW ===== */}
 
-                        </div>
-                        </div>
-                    </>
-                    )}
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          Background Details
+        </h3>
+
+        <div className="grid grid-cols-3 gap-6">
+
+          {/* LEFT FORM */}
+          <div className="col-span-2 bg-white p-5 rounded-xl shadow border">
+            <div className="grid grid-cols-2 gap-5">
+
+              <InputField label="Name" value="Ramesh Kumar Mishra" />
+
+              <InputField
+                label={backgroundView === "criminal" ? "Case No" : "Test Id"}
+                value={backgroundView === "criminal" ? "BAN472-98201" : "15498201"}
+              />
+
+              <div className="col-span-2">
+                <label className="text-sm text-gray-600 mb-1 block">
+                  {backgroundView === "criminal" ? "Case Details" : "Test Details"}
+                </label>
+
+                <textarea
+                  className="w-full border rounded-lg px-3 py-2 text-sm h-28"
+                  defaultValue={
+                    backgroundView === "criminal"
+                      ? "On [date], the accused committed offense... case under trial."
+                      : "The drug test ensures a safe workplace..."
+                  }
+                />
+              </div>
+
+            </div>
+          </div>
+
+          {/* RIGHT PREVIEW */}
+          <div className="bg-white p-4 rounded-xl shadow border text-center">
+            <p className="text-sm text-[#01026E] mb-3 font-medium">
+              Preview
+            </p>
+
+            <img
+              src="https://images.unsplash.com/photo-1586281380349-632531db7ed4"
+              className="rounded-lg shadow-sm mx-auto h-64 object-cover"
+            />
+          </div>
+
+        </div>
+      </>
+    )}
+  </>
+)}
                     {activeTab === "Reference" && (
                     <>
                         <h3 className="text-lg font-semibold text-[#01026E]">
@@ -504,9 +563,16 @@ const EditCandidate = () => {
   {/* Cancel → go back from education view */}
   <button
   onClick={() => {
-    if (showEducationView) setShowEducationView(false);
-    else if (showEmploymentView) setShowEmploymentView(false);
-  }}
+  if (showEducationView) {
+    setShowEducationView(false);
+  } else if (showEmploymentView) {
+    setShowEmploymentView(false);
+  } else if (backgroundView) {
+    setBackgroundView(null);
+  } else {
+    console.log("Go back or reset form");
+  }
+}}
 >
   Cancel
 </button>

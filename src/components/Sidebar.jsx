@@ -24,8 +24,8 @@ function Sidebar() {
 
   const menu = [
     { name: "Home", icon: Home, path: "/" },
-    { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-    { name: "Report", icon: FileText, path: "/report" },
+    { name: "Candidate", icon: LayoutDashboard, path: "/dashboard" },
+    { name: "Analytics", icon: FileText, path: "/report" },
   ];
 
   const expanded = isOpen || isHovering;

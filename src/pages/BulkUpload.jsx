@@ -55,7 +55,7 @@ const BulkUpload = () => {
           <h2 className="text-lg font-semibold text-[#2B3674]">
             Bulk Upload Candidates
           </h2>
-          <p className="text-xs text-gray-800">
+          <p className="text-xs text-gray-900">
             Upload Multiple Candidate Profiles At Once Using A Standardized File Format.
           </p>
         </div>
