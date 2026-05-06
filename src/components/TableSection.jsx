@@ -17,7 +17,7 @@ function TableSection({ isToolBarRequired }) {
   const [data, setData]                   = useState([]);
   const [loading, setLoading]             = useState(false);
   const [openMenu, setOpenMenu]           = useState(null);
-  const [modalType, setModalType]         = useState(null); // "hold" | "holdSuccess" | "reject" | "rejectSuccess" | null
+  const [modalType, setModalType]         = useState(null);
   const [holdReason, setHoldReason]       = useState("");
   const [rejectReason, setRejectReason]   = useState("");
   const [selectedRows, setSelectedRows]   = useState([]);
@@ -58,14 +58,12 @@ function TableSection({ isToolBarRequired }) {
 
   const handlePlaceOnHold = () => {
     if (!holdReason.trim()) return;
-    // TODO: API call here
     setModalType("holdSuccess");
     setHoldReason("");
   };
 
   const handleRejectApplication = () => {
     if (!rejectReason.trim()) return;
-    // TODO: API call here
     setModalType("rejectSuccess");
     setRejectReason("");
   };
@@ -156,12 +154,20 @@ function TableSection({ isToolBarRequired }) {
                           >
                             <Pencil size={15} /> Edit
                           </div>
+
+                          {/* ✅ Send Email → opens email success modal */}
                           <div
-                            onClick={(e) => { e.stopPropagation(); setOpenMenu(null); }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenu(null);
+                              setSelectedCandidate(item);
+                              setModalType("emailSuccess");
+                            }}
                             className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                           >
                             <Mail size={15} /> Send Email
                           </div>
+
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -204,11 +210,58 @@ function TableSection({ isToolBarRequired }) {
         {loading && <div className="p-4 text-center text-gray-500">Loading...</div>}
       </div>
 
+      {/* ===================== EMAIL SUCCESS MODAL ===================== */}
+      {modalType === "emailSuccess" && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999">
+          <div className="bg-white rounded-2xl shadow-2xl w-105 p-10 text-center">
+
+            {/* Envelope illustration */}
+            <div className="flex justify-center mb-6">
+              <div className="relative w-24 h-20">
+                {/* Envelope body */}
+                <svg width="96" height="80" viewBox="0 0 96 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Envelope */}
+                  <rect x="8" y="24" width="72" height="50" rx="6" fill="#C7D2FE" />
+                  <rect x="8" y="24" width="72" height="50" rx="6" stroke="#818CF8" strokeWidth="1.5" />
+                  {/* Envelope flap open */}
+                  <path d="M8 30 L44 52 L80 30" stroke="#818CF8" strokeWidth="1.5" fill="none" />
+                  {/* Letter inside */}
+                  <rect x="22" y="34" width="44" height="32" rx="3" fill="white" />
+                  <rect x="28" y="42" width="32" height="2" rx="1" fill="#C7D2FE" />
+                  <rect x="28" y="48" width="26" height="2" rx="1" fill="#C7D2FE" />
+                  <rect x="28" y="54" width="20" height="2" rx="1" fill="#C7D2FE" />
+                  {/* Paper airplane */}
+                  <path d="M62 8 L82 16 L62 24 L66 16 Z" fill="#6366F1" />
+                  <path d="M66 16 L76 13" stroke="#6366F1" strokeWidth="1" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-green-500 font-bold text-xl mb-3">
+              Invitation E-Mail Send Successfully
+            </h3>
+
+            {/* Subtitle */}
+            <p className="text-gray-500 text-sm mb-8">
+              "We've Sent You An Email—Take A Look In Your Inbox."
+            </p>
+
+            {/* Okay button */}
+            <button
+              onClick={closeModal}
+              className="px-10 py-2.5 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg font-medium transition active:scale-95"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ===================== ON HOLD CONFIRM MODAL ===================== */}
       {modalType === "hold" && selectedCandidate && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999">
           <div className="bg-white rounded-2xl shadow-2xl w-145 p-10 text-center">
-
             <h2 className="text-2xl font-semibold text-gray-900 mb-6 leading-snug">
               "Are You Sure You Want To Place
               <br />
@@ -216,7 +269,6 @@ function TableSection({ isToolBarRequired }) {
               <span className="font-bold">TCS-{selectedCandidate.cand_id}</span>{" "}
               <span className="text-orange-500 font-bold">On Hold</span>"
             </h2>
-
             <div className="text-left mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Reason For Putting On Hold <span className="text-red-500">*</span>
@@ -229,7 +281,6 @@ function TableSection({ isToolBarRequired }) {
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-orange-400 resize-none"
               />
             </div>
-
             <div className="flex justify-center gap-4">
               <button
                 onClick={closeModal}
@@ -253,24 +304,19 @@ function TableSection({ isToolBarRequired }) {
       {modalType === "holdSuccess" && selectedCandidate && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999">
           <div className="bg-white rounded-2xl shadow-2xl w-125 overflow-hidden text-center">
-
-            {/* Orange curved top */}
             <div className="bg-orange-500 h-44 flex items-center justify-center rounded-b-[50%]">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md">
                 <div className="w-8 h-8 bg-orange-500 rounded-lg" />
               </div>
             </div>
-
             <div className="px-10 py-8">
               <p className="text-orange-500 font-semibold text-lg leading-snug mb-3">
                 "Candidate TCS-{selectedCandidate.cand_id} Has Been
-                <br />
-                Placed On Hold Successfully."
+                <br />Placed On Hold Successfully."
               </p>
               <p className="text-gray-500 text-sm mb-8">
                 This Will Pause The Candidate's Progress In The
-                <br />
-                Hiring Process. You Can Resume It Anytime.
+                <br />Hiring Process. You Can Resume It Anytime.
               </p>
               <button
                 onClick={closeModal}
@@ -287,7 +333,6 @@ function TableSection({ isToolBarRequired }) {
       {modalType === "reject" && selectedCandidate && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999">
           <div className="bg-white rounded-2xl shadow-2xl w-145 p-10 text-center">
-
             <h2 className="text-2xl font-semibold text-gray-900 mb-6 leading-snug">
               "Are You Sure You Want To{" "}
               <span className="text-red-500 font-semibold">Reject</span>
@@ -295,7 +340,6 @@ function TableSection({ isToolBarRequired }) {
               This Candidate{" "}
               <span className="font-bold">TCS-{selectedCandidate.cand_id}</span>"
             </h2>
-
             <div className="text-left mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 *Reason For Rejection <span className="text-red-500">*</span>
@@ -308,7 +352,6 @@ function TableSection({ isToolBarRequired }) {
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-400 resize-none"
               />
             </div>
-
             <div className="flex justify-center gap-4">
               <button
                 onClick={closeModal}
@@ -332,29 +375,23 @@ function TableSection({ isToolBarRequired }) {
       {modalType === "rejectSuccess" && selectedCandidate && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999">
           <div className="bg-white rounded-2xl shadow-2xl w-125 overflow-hidden text-center">
-
-            {/* Red curved top */}
             <div className="bg-red-500 h-44 flex items-center justify-center rounded-b-[50%]">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                   <rect x="4" y="2" width="20" height="28" rx="3" fill="#EF4444" />
                   <path d="M10 13L16 19M16 13L10 19" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M22 2L28 8V30C28 30 24 30 24 28V8L22 2Z" fill="#EF4444" />
                   <path d="M22 2H26C27.1 2 28 2.9 28 4V8H22V2Z" fill="#EF4444" />
                 </svg>
               </div>
             </div>
-
             <div className="px-10 py-8">
               <p className="text-red-500 font-semibold text-lg leading-snug mb-3">
                 "Candidate {selectedCandidate.cand_id} Has Been
-                <br />
-                Rejected Successfully."
+                <br />Rejected Successfully."
               </p>
               <p className="text-gray-500 text-sm mb-8">
                 This Will Mark The Application As Rejected
-                <br />
-                And Remove It From The Active Hiring Process.
+                <br />And Remove It From The Active Hiring Process.
               </p>
               <button
                 onClick={closeModal}
